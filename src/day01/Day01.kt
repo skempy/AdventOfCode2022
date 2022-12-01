@@ -1,3 +1,7 @@
+package day01
+
+import readInputAsString
+
 fun main() {
 
     data class Elf(val calories: List<Int>)
@@ -13,7 +17,7 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInputAsString("Day01_test")
+    val testInput = readInputAsString("Day01", "_test")
     println("TestPart1: ${part1(testInput)}")
     println("TestPart1: ${part2(testInput)}")
 

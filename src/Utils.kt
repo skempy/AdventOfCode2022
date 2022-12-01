@@ -5,14 +5,16 @@ import java.security.MessageDigest
 /**
  * Reads lines from the given input txt file.
  */
-fun readInputAsList(name: String) = File("src", "$name.txt")
+fun readInputAsList(name: String, test: String = "") = File("src/${name.lowercase()}", "$name$test.txt")
     .readLines()
 
-fun readInputAsString(name: String) = File("src", "$name.txt").readText()
+fun readInputAsString(name: String, test: String = "") = File("src/${name.lowercase()}", "$name$test.txt").readText()
 
-fun readInputAsInt(name: String, test: String = "") = File("src/${name.lowercase()}", "$name$test.txt").readLines().map { it.toInt() }
+fun readInputAsInt(name: String, test: String = "") =
+    File("src/${name.lowercase()}", "$name$test.txt").readLines().map { it.toInt() }
 
-fun readInputAsIntList(name: String, test: String = "") = File("src/${name.lowercase()}", "$name$test.txt").readLines()[0].split(",").map { it.toInt() }
+fun readInputAsIntList(name: String, test: String = "") =
+    File("src/${name.lowercase()}", "$name$test.txt").readLines()[0].split(",").map { it.toInt() }
 
 /**
  * Converts string to md5 hash.
