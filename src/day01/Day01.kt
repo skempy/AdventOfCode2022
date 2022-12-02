@@ -18,8 +18,8 @@ fun main() {
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInputAsString("Day01", "_test")
-    println("TestPart1: ${part1(testInput)}")
-    println("TestPart1: ${part2(testInput)}")
+    println("Test Part1: ${part1(testInput)}")
+    println("Test Part2: ${part2(testInput)}")
 
     check(part1(testInput) == 24000)
     check(part2(testInput) == 45000)
