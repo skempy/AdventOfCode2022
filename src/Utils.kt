@@ -8,6 +8,9 @@ import java.security.MessageDigest
 fun readInputAsList(name: String, test: String = "") = File("src/${name.lowercase()}", "$name$test.txt")
     .readLines()
 
+fun readInputAsPairs(name: String, test: String = "") = File("src/${name.lowercase()}", "$name$test.txt")
+    .readLines().map { Pair(it.substringBefore(' ').trim(), it.substringAfter(' ').trim()) }
+
 fun readInputAsString(name: String, test: String = "") = File("src/${name.lowercase()}", "$name$test.txt").readText()
 
 fun readInputAsInt(name: String, test: String = "") =
