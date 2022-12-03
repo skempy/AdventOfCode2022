@@ -4,7 +4,7 @@
     <div style="display: flex; align-items: flex-start;">
         <h1 style="text-align: center;">
             <br>
-        <img src="day02.png" width="500" alt="satisfaction-survey">
+        <img src="day03.png" width="500" alt="satisfaction-survey">
             <br>
         </h1>
     </div>
