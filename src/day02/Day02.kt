@@ -100,14 +100,14 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInputAsPairs("Day02", "_test")
+    val testInput = readInputAsPairs("Day02", "_test", ' ')
     println("Test Part1: ${part1(testInput)}")
     println("Test Part2: ${part2(testInput)}")
 
     check(part1(testInput) == 15)
     check(part2(testInput) == 12)
 
-    val input = readInputAsPairs("Day02")
+    val input = readInputAsPairs("Day02", breakPoint = ' ')
     println("Actual Part1: ${part1(input)}")
     println("Actual Part2: ${part2(input)}")
 

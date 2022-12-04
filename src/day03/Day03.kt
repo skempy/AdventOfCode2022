@@ -31,7 +31,6 @@ enum class Alphabet(val lower: Int, val upper: Int) {
     Z(26, 52)
 }
 
-
 fun main() {
 
     fun part1(input: List<String>): Int {
