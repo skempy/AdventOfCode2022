@@ -36,4 +36,3 @@ fun main() {
     check(part1(input) == 7811)
     check(part2(input) == 2639)
 }
-

@@ -3,7 +3,7 @@
     <div style="display: flex; align-items: flex-start;">
         <h1 style="text-align: center;">
             <br>
-        <img src="day01.png" width="500" alt="satisfaction-survey">
+        <img src="day01.png" width="500" alt="advent-of-code">
             <br>
         </h1>
     </div>

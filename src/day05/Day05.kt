@@ -2,62 +2,53 @@ package day05
 
 import readInputAsList
 
-data class CrateInstruction(val quantity: Int, val position1: Int, val position2: Int)
+data class CrateInstruction(val quantity: Int, val source: Int, val target: Int)
 
 fun main() {
 
     fun findStacksOfCrates(
         input: List<String>,
-        stacks: MutableMap<Int, MutableList<Char>>,
-    ): Int {
+    ): MutableMap<Int, MutableList<Char>> {
+        val stacks = mutableMapOf<Int, MutableList<Char>>()
         val stackPosition = mutableListOf<Int>()
-        var stackNumbersLine = 0
 
-        input.forEachIndexed { index, line ->
-            if (line.filterNot { it.isWhitespace() }.matches("-?[0-9]+(\\\\\\\\.[0-9]+)?".toRegex())) {
-                stackNumbersLine = index
-                line.forEachIndexed { index, c ->
-                    if (!c.isWhitespace()) {
-                        stackPosition.add(index)
-                    }
+        input.first { line ->
+            line.filterNot { it.isWhitespace() }
+                .matches("-?[0-9]+(\\\\\\\\.[0-9]+)?".toRegex())
+        }
+            .forEachIndexed { index, char ->
+                if (!char.isWhitespace()) {
+                    stackPosition.add(index)
                 }
             }
-        }
 
-        stackPosition.forEachIndexed { index1, stackPosition ->
+        stackPosition.forEachIndexed { index1, charPosition ->
             stacks[index1] =
-                (0 until stackNumbersLine).filter { it -> !input[it].padEnd(100, ' ')[stackPosition].isWhitespace() }
-                    .map { index -> input[index].padEnd(100, ' ')[stackPosition] }.toMutableList()
+                input.takeWhile { it.contains('[') }
+                    .mapNotNull { it.getOrNull(charPosition) }
+                    .filter { !it.isWhitespace() }
+                    .toMutableList()
         }
-        return stackNumbersLine
+        return stacks
     }
 
     fun parseInstructions(
-        stackNumbersLine: Int,
         input: List<String>,
     ): List<CrateInstruction> {
-        val crateInstructions = (stackNumbersLine.plus(2) until input.size).map { it ->
-            val parsedInput = input[it].replace("move", "").replace("from", ",").replace("to", ",").replace(" ", "")
-            CrateInstruction(
-                parsedInput.substringBefore(",").toInt(),
-                parsedInput.substringBeforeLast(",").substringAfterLast(",").toInt().minus(1),
-                parsedInput.substringAfterLast(",").toInt().minus(1)
-            )
+        return input.dropWhile { !it.startsWith("move") }.map { instruction ->
+            val res = "move (\\d+) from (\\d) to (\\d)".toRegex().find(instruction)!!.groupValues
+            CrateInstruction(res[1].toInt(), res[2].toInt() - 1, res[3].toInt() - 1)
         }
-        return crateInstructions
     }
 
     fun part1(input: List<String>): String {
-        val stacks = mutableMapOf<Int, MutableList<Char>>()
-        val stackNumbersLine = findStacksOfCrates(input, stacks)
+        val stacks = findStacksOfCrates(input)
 
-        val crateInstructions = parseInstructions(stackNumbersLine, input)
-
-        crateInstructions.forEach { crateInstruction ->
-            repeat(crateInstruction.quantity) {
-                val crateToMove = stacks[crateInstruction.position1]?.take(1)!!.single()
-                stacks[crateInstruction.position1]?.remove(crateToMove)
-                stacks[crateInstruction.position2]?.add(0, crateToMove)
+        parseInstructions(input).forEach { instruction ->
+            repeat(instruction.quantity) {
+                val crateToMove = stacks[instruction.source]?.take(1)!!.single()
+                stacks[instruction.source]?.remove(crateToMove)
+                stacks[instruction.target]?.add(0, crateToMove)
             }
         }
 
@@ -65,18 +56,14 @@ fun main() {
     }
 
     fun part2(input: List<String>): String {
-        val stacks = mutableMapOf<Int, MutableList<Char>>()
+        val stacks = findStacksOfCrates(input)
 
-        val stackNumbersLine = findStacksOfCrates(input, stacks)
-
-        val crateInstructions = parseInstructions(stackNumbersLine, input)
-
-        crateInstructions.forEach { crateInstruction ->
-            val crateToMove = stacks[crateInstruction.position1]?.take(crateInstruction.quantity)!!
+        parseInstructions(input).forEach { crateInstruction ->
+            val crateToMove = stacks[crateInstruction.source]?.take(crateInstruction.quantity)!!
             crateToMove.forEach {
-                stacks[crateInstruction.position1]?.remove(it)
+                stacks[crateInstruction.source]?.remove(it)
             }
-            stacks[crateInstruction.position2]?.addAll(0, crateToMove)
+            stacks[crateInstruction.target]?.addAll(0, crateToMove)
         }
 
         return String(stacks.filter { it.value.isNotEmpty() }.map { it.value.first() }.toCharArray())
