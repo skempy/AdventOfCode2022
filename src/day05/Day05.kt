@@ -12,10 +12,7 @@ fun main() {
         val stacks = mutableMapOf<Int, MutableList<Char>>()
         val stackPosition = mutableListOf<Int>()
 
-        input.first { line ->
-            line.filterNot { it.isWhitespace() }
-                .matches("-?[0-9]+(\\\\\\\\.[0-9]+)?".toRegex())
-        }
+        input.first { line -> line.filterNot { it.isWhitespace() }.all { char -> char.isDigit() } }
             .forEachIndexed { index, char ->
                 if (!char.isWhitespace()) {
                     stackPosition.add(index)
