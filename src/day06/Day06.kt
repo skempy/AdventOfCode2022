@@ -6,32 +6,25 @@ fun main() {
 
     fun findMarker(
         input: List<String>,
-        listOfNonRepeatingChars: MutableMap<Int, String>,
         sizeOfPacket: Int,
-    ) {
+    ): MutableList<Int> {
+        val listOfNonRepeatingChars = mutableListOf<Int>()
         input.first()
             .windowed(sizeOfPacket)
             .forEachIndexed { index, packet ->
                 if (packet.toSet().size == sizeOfPacket) {
-                    listOfNonRepeatingChars[index.plus(sizeOfPacket)] = packet
+                    listOfNonRepeatingChars.add(index.plus(sizeOfPacket))
                 }
             }
+        return listOfNonRepeatingChars
     }
 
     fun part1(input: List<String>): Int {
-        val listOfNonRepeatingChars = mutableMapOf<Int, String>()
-
-        findMarker(input, listOfNonRepeatingChars, 4)
-
-        return listOfNonRepeatingChars.keys.min()
+        return findMarker(input, 4).min()
     }
 
     fun part2(input: List<String>): Int {
-        val listOfNonRepeatingChars = mutableMapOf<Int, String>()
-
-        findMarker(input, listOfNonRepeatingChars, 14)
-
-        return listOfNonRepeatingChars.keys.min()
+        return findMarker(input, 14).min()
     }
 
 // test if implementation meets criteria from the description, like:
