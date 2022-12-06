@@ -7,24 +7,18 @@ fun main() {
     fun findMarker(
         input: List<String>,
         sizeOfPacket: Int,
-    ): MutableList<Int> {
-        val listOfNonRepeatingChars = mutableListOf<Int>()
-        input.first()
+    ): Int {
+        return input.first()
             .windowed(sizeOfPacket)
-            .forEachIndexed { index, packet ->
-                if (packet.toSet().size == sizeOfPacket) {
-                    listOfNonRepeatingChars.add(index.plus(sizeOfPacket))
-                }
-            }
-        return listOfNonRepeatingChars
+            .indexOfFirst { packet -> packet.toSet().size == sizeOfPacket  } + sizeOfPacket
     }
 
     fun part1(input: List<String>): Int {
-        return findMarker(input, 4).min()
+        return findMarker(input, 4)
     }
 
     fun part2(input: List<String>): Int {
-        return findMarker(input, 14).min()
+        return findMarker(input, 14)
     }
 
 // test if implementation meets criteria from the description, like:
